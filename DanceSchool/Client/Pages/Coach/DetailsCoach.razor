@@ -1,0 +1,20 @@
+﻿@page "/coach/{coachId:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Szczegóły: </h3>
+<Form ButtonText="Szczegóły" coach="coach"
+      OnValidSubmit="@GetDatails" />
+@code {
+    [Parameter] public int coachId { get; set; }
+    Coach coach = new Coach();
+    protected async override Task OnParametersSetAsync()
+    {
+        coach = await http.GetFromJsonAsync<Coach>($"api/coach/{coachId}");
+    }
+    async Task GetDatails()
+    {
+        await http.PutAsJsonAsync("api/coach", coachId);
+        uriHelper.NavigateTo("coach");
+    }
+}

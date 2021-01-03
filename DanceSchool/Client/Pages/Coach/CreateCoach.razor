@@ -1,0 +1,31 @@
+﻿@page "/coach/create"
+    @inject HttpClient http
+    @inject NavigationManager uriHelper
+
+    <h3>Create</h3>
+    <Form ButtonText="Zapisz dane" coach="@coach"
+          OnValidSubmit="@CreateNewCoach" />
+
+    @code {
+        Coach coach = new Coach();
+        async Task CreateNewCoach()
+        {
+            await http.PostAsJsonAsync("api/coach", coach);
+            uriHelper.NavigateTo("coach");
+        }
+    }
+@*
+@page "/coach/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+<h3>Create</h3>
+<Form ButtonText="Create coach" coach="@coach"
+      OnValidSubmit="@CreateC" />
+@code {
+    Coach coach = new Coach();
+    async Task CreateC()
+    {
+        await http.PostAsJsonAsync("api/coach", coach);
+        uriHelper.NavigateTo("coach");
+    }
+*@}
