@@ -1,0 +1,54 @@
+﻿@page "/coach/{coachId:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Szczegóły: </h3>
+
+
+<div class="form-group">
+    <div class="form-text">
+        <h6 class="oi-align-left font-weight-bold">
+            Dane osobowe tenera:
+        </h6>
+        <p class="align-content-center">
+            @coach.Name @coach.LastName
+        </p>
+        <br />
+        
+        <h6 class="oi-align-left font-weight-bold">
+            Doświadczenie:
+        </h6>
+        <p class="align-content-center">
+            Prowadzący posiada już @coach.AgeExperience-letne dośwaidczenie w prowadazeniu zajęć.
+        </p>
+        <br/>
+
+        <h6 class="oi-align-left font-weight-bold">
+            Opis:
+        </h6>
+        <p class="align-content-center">
+            @coach.Description
+        </p>
+        <br />
+
+        <h6 class="oi-align-left font-weight-bold">
+            Prowadzi zajęcia:
+        </h6>
+        @foreach (var training in coach.Trainings)
+        {
+            <ul>training</ul>
+        }
+        <br />
+    </div>
+
+</div>
+
+
+@code {
+    [Parameter] public int coachId { get; set; }
+    Coach coach = new Coach();
+    protected async override Task OnParametersSetAsync()
+    {
+        coach = await http.GetFromJsonAsync<Coach>($"api/coach/{coachId}");
+    }
+}
