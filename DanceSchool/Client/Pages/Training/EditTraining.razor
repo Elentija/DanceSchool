@@ -1,0 +1,21 @@
+﻿@page "/training/edit/{trainingId:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Edytuj: </h3>
+<TrainingForm ButtonText="Zaktualizuj" training="training"
+      OnValidSubmit="@EditExistingTraining"/>
+@code {
+    [Parameter] public int trainingId { get; set; }
+    Training training = new Training();
+    protected async override Task OnParametersSetAsync()
+    {
+        training = await http.GetFromJsonAsync<Training>($"api/training/{trainingId}");
+    }
+    async Task EditExistingTraining()
+    {
+        await http.PutAsJsonAsync("api/training", training);
+        await js.InvokeVoidAsync("alert", $"Zaktualizowano rekord w bazie!");
+        uriHelper.NavigateTo("training");
+    }
+}

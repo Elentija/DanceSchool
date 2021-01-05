@@ -1,0 +1,65 @@
+﻿@page "/training"
+@inject HttpClient client
+@inject IJSRuntime js
+
+<h3>Kursy</h3>
+
+    <div class="row justify-content-end">
+        <a class="btn btn-outline-info" href="training/create"><i class="oi oi-plus"></i> Dodaj</a>
+
+    </div>
+<br>
+@if (trainings == null)
+{
+    <text>Ładowanie danych...</text>
+}
+else if (trainings.Length == 0)
+{
+    <text>Brak danych w bazie.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa kursu</th>
+                <th>Wolne miejsca</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1;}
+            @foreach (Training training in trainings)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@training.Name</td>
+                    <td>@training.NumberOfParticipants</td>
+                    <td>
+                        <a class="btn btn-outline-primary" href="training/edit/@training.Id">Edytuj</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(training.Id))">Usuń</button>
+                        <a class="btn btn-secondary" href="training/@training.Id">Szczegóły</a>
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+}
+@code {
+    Training[] trainings{ get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        trainings = await client.GetFromJsonAsync<Training[]>("api/training");
+    }
+    async Task Delete(int trainingId)
+    {
+        var training = trainings.First(x => x.Id == trainingId);
+        if (await js.InvokeAsync<bool>("confirm", $"Czy na pewno chcesz usunąć kurs {training.Name}?"))
+        {
+            await client.DeleteAsync($"api/training/{trainingId}");
+            await OnInitializedAsync();
+        }
+    }
+}

@@ -1,0 +1,17 @@
+﻿@page "/training/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+
+<h3>Dodaj nowy kurs</h3>
+<TrainingForm ButtonText="Dodaj kurs" training="@training"
+              OnValidSubmit="@CreateNewTraining" />
+
+
+@code {
+    Training training = new Training();
+    async Task CreateNewTraining()
+    {
+        await http.PostAsJsonAsync("api/training", training);
+        uriHelper.NavigateTo("training");
+    }
+}

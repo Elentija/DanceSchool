@@ -1,4 +1,4 @@
-﻿@page "/coach/{coachId:int}"
+﻿@page "/training/{trainingId:int}"
 @inject HttpClient http
 @inject NavigationManager uriHelper
 @inject IJSRuntime js
@@ -8,36 +8,35 @@
 <div class="form-group">
     <div class="form-text">
         <h6 class="oi-align-left font-weight-bold">
-            Dane osobowe tenera:
+            Nazwa kursu:
         </h6>
         <p class="align-content-center">
-            @coach.Name @coach.LastName
-        </p>
-        <br />
-        
-        <h6 class="oi-align-left font-weight-bold">
-            Doświadczenie:
-        </h6>
-        <p class="align-content-center">
-            Prowadzący posiada już @coach.AgeExperience-letne dośwaidczenie w prowadazeniu zajęć.
-        </p>
-        <br/>
-
-        <h6 class="oi-align-left font-weight-bold">
-            Opis:
-        </h6>
-        <p class="align-content-center">
-            @coach.Description
+            @training.Name
         </p>
         <br />
 
         <h6 class="oi-align-left font-weight-bold">
-            Prowadzi zajęcia:
+            Liczba dostępnych miejsc:
         </h6>
-        @foreach (var training in coach.Trainings)
-        {
-            <ul>training</ul>
-        }
+        <p class="align-content-center">
+            Maksymalna liczba osób @training.NumberOfParticipants
+        </p>
+        <br />
+
+        <h6 class="oi-align-left font-weight-bold">
+            Cena kursu:
+        </h6>
+        <p class="align-content-center">
+            @training.Price
+        </p>
+        <br />
+
+        <h6 class="oi-align-left font-weight-bold">
+            Data pierwszych zajęć:
+        </h6>
+        <p class="align-content-center">
+            @training.FirstLessonDate. Kolejne zajęcia odbywają się co tydzień. 
+        </p>
         <br />
     </div>
 
@@ -45,10 +44,10 @@
 
 
 @code {
-    [Parameter] public int coachId { get; set; }
-    Coach coach = new Coach();
+    [Parameter] public int trainingId { get; set; }
+    Training training = new Training();
     protected async override Task OnParametersSetAsync()
     {
-        coach = await http.GetFromJsonAsync<Coach>($"api/coach/{coachId}");
+        training = await http.GetFromJsonAsync<Training>($"api/training/{trainingId}");
     }
 }

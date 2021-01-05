@@ -1,0 +1,67 @@
+﻿@inherits TrainingFormBase
+<EditForm Model="@training" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Nazwa kursu :</label>
+        <div>
+            <InputText @bind-Value="@training.Name" />
+            <ValidationMessage For="@(() => training.Name)" />
+        </div>
+    </div>
+    <div class="form-group ">
+        <label>Prowadzący :</label>
+        <div>
+            <InputSelect @bind-Value="@training.Coach">
+                @foreach (var value in Coaches)
+                {
+                    <option>@value</option>
+                }
+            </InputSelect>
+            <InputSelect id="Coach" @bind-Value="CoachId" class="form-control">
+                @foreach (var dept in Coaches)
+                {
+                    <option value="@dept.Id">@dept.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => training.Coach)" />
+
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Liczba dostępnych miejsc :</label>
+            <div>
+                <InputNumber @bind-Value="@training.NumberOfParticipants" />
+                <ValidationMessage For="@(() => training.NumberOfParticipants)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Cena kursu :</label>
+            <div>
+                <InputNumber @bind-Value="@training.Price" />
+                <ValidationMessage For="@(() => training.Price)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Data pierwszych zajęć:</label>
+            <div>
+                <InputDate @bind-Value="@training.FirstLessonDate" />
+                <ValidationMessage For="@(() => training.FirstLessonDate)" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@*@code {
+    [Parameter] public Training training { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
+*@
