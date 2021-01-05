@@ -4,14 +4,16 @@ using DanceSchool.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DanceSchool.Server.Migrations
 {
     [DbContext(typeof(DanceSchoolContext))]
-    partial class DanceSchoolContextModelSnapshot : ModelSnapshot
+    [Migration("20210105173610_Add CoachId")]
+    partial class AddCoachId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

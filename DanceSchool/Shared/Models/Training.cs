@@ -13,6 +13,9 @@ namespace DanceSchool.Shared.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        public int CoachId { get; set; }
+        public virtual Coach Coach { get; set; }
+
         [DisplayName("Nazwa kursu")]
         [Required]
         public string Name { get; set; }
@@ -25,7 +28,5 @@ namespace DanceSchool.Shared.Models
 
         [DisplayName("Cena kursu")]
         public double Price { get; set; }
-
-        public virtual Coach Coach { get; set; }
     }
 }

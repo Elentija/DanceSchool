@@ -1,5 +1,4 @@
-﻿@inherits TrainingFormBase
-<EditForm Model="@training" OnValidSubmit="@OnValidSubmit">
+﻿<EditForm Model="@training" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="form-group">
         <label>Nazwa kursu :</label>
@@ -11,19 +10,7 @@
     <div class="form-group ">
         <label>Prowadzący :</label>
         <div>
-            <InputSelect @bind-Value="@training.Coach">
-                @foreach (var value in Coaches)
-                {
-                    <option>@value</option>
-                }
-            </InputSelect>
-            <InputSelect id="Coach" @bind-Value="CoachId" class="form-control">
-                @foreach (var dept in Coaches)
-                {
-                    <option value="@dept.Id">@dept.Name</option>
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => training.Coach)" />
+           
 
         </div>
     </div>
@@ -59,9 +46,8 @@
     </button>
 </EditForm>
 
-@*@code {
+@code {
     [Parameter] public Training training { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 }
-*@

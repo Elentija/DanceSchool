@@ -4,7 +4,11 @@
 @inject IJSRuntime js
 <h3>Szczegóły: </h3>
 
-
+@if(training == null || training.Coach == null)
+{
+    <div class="spinner"></div>
+}
+else { 
 <div class="form-group">
     <div class="form-text">
         <h6 class="oi-align-left font-weight-bold">
@@ -12,6 +16,14 @@
         </h6>
         <p class="align-content-center">
             @training.Name
+        </p>
+        <br />
+
+        <h6 class="oi-align-left font-weight-bold">
+            Trener:
+        </h6>
+        <p class="align-content-center">
+            @training.CoachId
         </p>
         <br />
 
@@ -35,17 +47,17 @@
             Data pierwszych zajęć:
         </h6>
         <p class="align-content-center">
-            @training.FirstLessonDate. Kolejne zajęcia odbywają się co tydzień. 
+            @training.FirstLessonDate.ToString("dd.MM.yyyy"). Kolejne zajęcia odbywają się co tydzień.
         </p>
         <br />
     </div>
 
 </div>
-
+}
 
 @code {
     [Parameter] public int trainingId { get; set; }
-    Training training = new Training();
+    Training training { get; set; }
     protected async override Task OnParametersSetAsync()
     {
         training = await http.GetFromJsonAsync<Training>($"api/training/{trainingId}");

@@ -3,14 +3,73 @@
 @inject NavigationManager uriHelper
 
 <h3>Dodaj nowy kurs</h3>
-<TrainingForm ButtonText="Dodaj kurs" training="@training"
-              OnValidSubmit="@CreateNewTraining" />
+@*<TrainingForm ButtonText="Dodaj kurs" training="@training"
+    OnValidSubmit="@CreateNewTraining" />*@
+<EditForm Model="@training" OnSubmit="@CreateNewTraining">
+    <div class="form-group">
+        <label>Nazwa kursu :</label>
+        <div>
+            <InputText @bind-Value="@training.Name" />
+            <ValidationMessage For="@(() => training.Name)" />
+        </div>
+    </div>
+    <div class="form-group ">
+            <label>Prowadzący :</label>
+            <div>
+                <InputSelect @bind-Value="@coachId">
+                    @foreach (var coach in coaches)
+                    {
+                        <option value="@coach.Id.ToString()">@coach.Name @coach.LastName</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+    <div class="form-group ">
+        <div>
+            <label>Liczba dostępnych miejsc :</label>
+            <div>
+                <InputNumber @bind-Value="@training.NumberOfParticipants" />
+                <ValidationMessage For="@(() => training.NumberOfParticipants)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Cena kursu :</label>
+            <div>
+                <InputNumber @bind-Value="@training.Price" />
+                <ValidationMessage For="@(() => training.Price)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Data pierwszych zajęć:</label>
+            <div>
+                <InputDate @bind-Value="@training.FirstLessonDate" />
+                <ValidationMessage For="@(() => training.FirstLessonDate)" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        Zapisz
+    </button>
+</EditForm>
 
 
 @code {
     Training training = new Training();
+    List<Coach> coaches = new List<Coach>();
+    public string coachId;
+    protected override async Task OnInitializedAsync()
+    {
+
+        coaches = await http.GetFromJsonAsync<List<Coach>>("api/coach");
+    }
+
     async Task CreateNewTraining()
     {
+        training.CoachId = Convert.ToInt32(training.CoachId);
         await http.PostAsJsonAsync("api/training", training);
         uriHelper.NavigateTo("training");
     }
