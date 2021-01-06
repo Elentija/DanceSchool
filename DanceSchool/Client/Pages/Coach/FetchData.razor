@@ -57,7 +57,7 @@ else
     async Task Delete(int coachId)
     {
         var coach = coaches.First(x => x.Id == coachId);
-        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {coach.Name} ({coach.Id}) Record?"))
+        if (await js.InvokeAsync<bool>("confirm", $"Czy na pewno chcesz usunąć trenera: {coach.Name} {coach.Id}?"))
         {
             await client.DeleteAsync($"api/coach/{coachId}");
             await OnInitializedAsync();

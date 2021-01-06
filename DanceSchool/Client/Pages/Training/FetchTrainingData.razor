@@ -24,7 +24,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Nazwa kursu</th>
-                <th>Wolne miejsca</th>
+                <th>Data rozpoczęcia</th>
                 <th></th>
             </tr>
         </thead>
@@ -35,7 +35,7 @@ else
                 <tr>
                     <td>@i</td>
                     <td>@training.Name</td>
-                    <td>@training.NumberOfParticipants</td>
+                    <td>@training.FirstLessonDate.ToString("dd.MM.yyyy")</td>
                     <td>
                         <a class="btn btn-outline-primary" href="training/edit/@training.Id">Edytuj</a>
                         <button class="btn btn-danger" @onclick="@(() => Delete(training.Id))">Usuń</button>

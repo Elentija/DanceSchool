@@ -15,7 +15,7 @@
     async Task EditExistingCoach()
     {
         await http.PutAsJsonAsync("api/coach", coach);
-        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        await js.InvokeVoidAsync("alert", "Pomyślnie zapisano zmiany!");
         uriHelper.NavigateTo("coach");
     }
 }

@@ -20,6 +20,7 @@ namespace DanceSchool.Server.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> GetAllTrainings()
         {
             var trainings = await context.Trainings.ToListAsync();
@@ -27,25 +28,31 @@ namespace DanceSchool.Server.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetById(int id)
         {
+            if (!context.Trainings.Any(i => i.Id == id))
+                return NotFound();
+
             var training = await context.Trainings
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstAsync(a => a.Id == id);
+            
             return Ok(training);
         }
 
+
         [HttpPost]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> AddNewTraining(Training training)
         {
             context.Add(training);
-           /* var coach = context.Coaches.FirstOrDefault(x => x.Id == training.Coach.Id);
-            coach.Trainings.Add(training);
-            context.Update(coach);*/
             await context.SaveChangesAsync();
             return Ok(training.Id);
         }
 
         [HttpPut]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> UpdateTraininghDate(Training training)
         {
             context.Entry(training).State = EntityState.Modified;
@@ -54,8 +61,13 @@ namespace DanceSchool.Server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteTraining(int id)
         {
+            if (!context.Trainings.Any(i => i.Id == id))
+                return NotFound();
+
             var training = new Training { Id = id };
             context.Trainings.Remove(training);
             await context.SaveChangesAsync();

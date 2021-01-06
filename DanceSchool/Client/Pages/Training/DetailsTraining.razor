@@ -6,7 +6,7 @@
 
 @if(training == null)
 {
-    <div class="spinner">Ladowanie danych....</div>
+    <div class="spinner">Brak danych...</div>
 }
 else { 
 <div class="form-group">
@@ -23,7 +23,7 @@ else {
             Trener:
         </h6>
         <p class="align-content-center">
-            @training.CoachId
+            @coach.Name @coach.LastName
         </p>
         <br />
 
@@ -39,7 +39,7 @@ else {
             Cena kursu:
         </h6>
         <p class="align-content-center">
-            @training.Price
+            @training.Price zł
         </p>
         <br />
 
@@ -58,8 +58,10 @@ else {
 @code {
     [Parameter] public int trainingId { get; set; }
     Training training { get; set; }
+    Coach coach { get; set; }
     protected async override Task OnParametersSetAsync()
     {
         training = await http.GetFromJsonAsync<Training>($"api/training/{trainingId}");
+        coach = await http.GetFromJsonAsync<Coach>($"api/coach/{training.CoachId}");
     }
 }
