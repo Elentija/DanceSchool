@@ -12,13 +12,13 @@ namespace DanceSchool.Server
         public DbSet<Coach> Coaches{ get; set; }
         public DbSet<Training> Trainings { get; set; }
 
-      /*  protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // określenie relacji pomiędzy encjami
-            modelBuilder.Entity<User>()
-               .HasMany(e => e.UserLogs)
-               .WithRequired(e => e.User)
-               .WillCascadeOnDelete(true);
-        }*/
+            modelBuilder.Entity<Training>()
+                .HasOne(cs => cs.Coach)
+                .WithMany(p => p.Trainings)
+                .HasForeignKey(cs => cs.CoachId);
+        }
     }
 }

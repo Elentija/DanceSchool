@@ -4,9 +4,9 @@
 @inject IJSRuntime js
 <h3>Szczegóły: </h3>
 
-@if(training == null || training.Coach == null)
+@if(training == null)
 {
-    <div class="spinner"></div>
+    <div class="spinner">Ladowanie danych....</div>
 }
 else { 
 <div class="form-group">

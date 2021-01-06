@@ -30,7 +30,6 @@ namespace DanceSchool.Server.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var training = await context.Trainings
-                .Include(x => x.Coach)
                 .FirstOrDefaultAsync(a => a.Id == id);
             return Ok(training);
         }
@@ -39,9 +38,9 @@ namespace DanceSchool.Server.Controllers
         public async Task<IActionResult> AddNewTraining(Training training)
         {
             context.Add(training);
-            var coach = context.Coaches.FirstOrDefault(x => x.Id == training.Coach.Id);
+           /* var coach = context.Coaches.FirstOrDefault(x => x.Id == training.Coach.Id);
             coach.Trainings.Add(training);
-            context.Update(coach);
+            context.Update(coach);*/
             await context.SaveChangesAsync();
             return Ok(training.Id);
         }
