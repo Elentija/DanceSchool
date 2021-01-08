@@ -5,14 +5,12 @@
 <h3>Trenerzy</h3>
 
     <div class="row justify-content-end">
-@*        <a class="btn btn-success" href="coach/create"><i class="oi oi-plus"></i> Dodaj</a>
-*@        <a class="btn btn-outline-info" href="coach/create"><i class="oi oi-plus"></i> Dodaj</a>
-
+        <a class="btn btn-outline-info" href="coach/create"><i class="oi oi-plus"></i> Dodaj</a>
     </div>
 <br>
 @if (coaches == null)
 {
-    <text>Loading...</text>
+    <text>Ładowanie danych...</text>
 }
 else if (coaches.Length == 0)
 {
@@ -57,7 +55,7 @@ else
     async Task Delete(int coachId)
     {
         var coach = coaches.First(x => x.Id == coachId);
-        if (await js.InvokeAsync<bool>("confirm", $"Czy na pewno chcesz usunąć trenera: {coach.Name} {coach.Id}?"))
+        if (await js.InvokeAsync<bool>("confirm", $"Czy na pewno chcesz usunąć trenera: {coach.Name}?"))
         {
             await client.DeleteAsync($"api/coach/{coachId}");
             await OnInitializedAsync();

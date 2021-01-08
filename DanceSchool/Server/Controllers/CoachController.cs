@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using DanceSchool.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,14 +19,21 @@ namespace DanceSchool.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCoaches()
         {
-            var coaches = await context.Coaches.ToListAsync();
+            var coaches = await context.Coaches.OrderBy(z => z.LastName).ToListAsync();
             return Ok(coaches);
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetById(int id)
         {
-            var coach = await context.Coaches.FirstOrDefaultAsync(a => a.Id == id);
+            if (!context.Coaches.Any(i => i.Id == id))
+                return NotFound();
+
+            var coach = await context.Coaches
+                .FirstAsync(a => a.Id == id);
+
             return Ok(coach);
         }
 
@@ -50,8 +54,13 @@ namespace DanceSchool.Server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteCoach(int id)
         {
+            if (!context.Coaches.Any(i => i.Id == id))
+                return NotFound();
+
             var coach = new Coach{ Id = id };
             context.Coaches.Remove(coach);
             await context.SaveChangesAsync();

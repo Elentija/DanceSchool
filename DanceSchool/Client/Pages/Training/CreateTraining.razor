@@ -3,8 +3,6 @@
 @inject NavigationManager uriHelper
 
 <h3>Dodaj nowy kurs</h3>
-@*<TrainingForm ButtonText="Dodaj kurs" training="@training"
-    OnValidSubmit="@CreateNewTraining" />*@
 <EditForm Model="@training" OnSubmit="@CreateNewTraining">
     <div class="form-group">
         <label>Nazwa kursu :</label>
@@ -17,6 +15,7 @@
             <label>Prowadzący :</label>
             <div>
                 <InputSelect @bind-Value="@coachId">
+                    <option>Wybierz trenera...</option>
                     @foreach (var coach in coaches)
                     {
                         <option value="@coach.Id.ToString()">@coach.Name @coach.LastName</option>
@@ -25,30 +24,24 @@
             </div>
         </div>
     <div class="form-group ">
+        <label>Liczba dostępnych miejsc :</label>
         <div>
-            <label>Liczba dostępnych miejsc :</label>
-            <div>
-                <InputNumber @bind-Value="@training.NumberOfParticipants" />
-                <ValidationMessage For="@(() => training.NumberOfParticipants)" />
-            </div>
+            <InputNumber @bind-Value="@training.NumberOfParticipants" />
+            <ValidationMessage For="@(() => training.NumberOfParticipants)" />
         </div>
     </div>
     <div class="form-group ">
+        <label>Cena kursu :</label>
         <div>
-            <label>Cena kursu :</label>
-            <div>
-                <InputNumber @bind-Value="@training.Price" />
-                <ValidationMessage For="@(() => training.Price)" />
-            </div>
+            <InputNumber @bind-Value="@training.Price" />
+            <ValidationMessage For="@(() => training.Price)" />
         </div>
     </div>
     <div class="form-group ">
+        <label>Data pierwszych zajęć:</label>
         <div>
-            <label>Data pierwszych zajęć:</label>
-            <div>
-                <InputDate @bind-Value="@training.FirstLessonDate" />
-                <ValidationMessage For="@(() => training.FirstLessonDate)" />
-            </div>
+            <InputDate @bind-Value="@training.FirstLessonDate" />
+            <ValidationMessage For="@(() => training.FirstLessonDate)" />
         </div>
     </div>
     <button type="submit" class="btn btn-success">
@@ -61,6 +54,7 @@
     Training training = new Training();
     List<Coach> coaches = new List<Coach>();
     public string coachId;
+
     protected override async Task OnInitializedAsync()
     {
 

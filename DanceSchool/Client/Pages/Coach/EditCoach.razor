@@ -2,9 +2,11 @@
 @inject HttpClient http
 @inject NavigationManager uriHelper
 @inject IJSRuntime js
+
 <h3>Edytuj: </h3>
-<Form ButtonText="Update" coach="coach"
+<Form ButtonText="Zapisz" coach="coach"
       OnValidSubmit="@EditExistingCoach" />
+
 @code {
     [Parameter] public int coachId { get; set; }
     Coach coach= new Coach();

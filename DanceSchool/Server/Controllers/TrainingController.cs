@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using DanceSchool.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +13,7 @@ namespace DanceSchool.Server.Controllers
         private readonly DanceSchoolContext context;
         public TrainingController(DanceSchoolContext _context)
         {
-            this.context = _context;
+            context = _context;
         }
 
         [HttpGet]
